@@ -1,0 +1,64 @@
+<div class="wrapper fadeInDown">
+	<div id="formContent">
+
+		<div class="fadeIn first m-3">
+			<img src="../../../assets/logo-business-services.svg" id="icon" alt="User Icon" />
+		</div>
+
+		<div class="container">
+			<form [formGroup]="loginForm">
+				<div class="row">
+					
+					<div class="col">
+						<input 
+							type="text" 
+							id="login" 
+							[class.is-invalid]="loginForm.get('email').invalid && loginForm.get('email').touched"
+							class="fadeIn second form-control" 
+							name="login" 
+							placeholder="username"
+							formControlName="email" 
+							required>
+					</div>
+				</div>
+				<mat-error 
+					class="d-flex justify-content-center text-danger" 
+					*ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">
+					Email required*
+				</mat-error>
+
+				<div class="row">
+					<div class="col">
+						<input 
+							type="password" 
+							id="password" 
+							class="fadeIn third form-control" 
+							name="login" 
+							placeholder="password"
+							formControlName="password"
+							[class.is-invalid]="loginForm.get('password').invalid && loginForm.get('password').touched"
+							>
+					</div>
+				</div>
+				<mat-error 
+					class="d-flex justify-content-center text-danger" 
+					*ngIf="loginForm.get('password').invalid && loginForm.get('password').touched">
+					Password required*
+				</mat-error>
+
+				<input 
+					type="submit" 
+					class="fadeIn fourth" 
+					value="Log In"
+					[disabled]="loginForm.get('password').invalid || loginForm.get('email').invalid"
+					>
+			</form>
+		</div>
+
+		<!-- Remind Passowrd -->
+		<div id="formFooter">
+			<a class="underlineHover" href="#">Forgot Password</a>
+		</div>
+
+	</div>
+</div>
