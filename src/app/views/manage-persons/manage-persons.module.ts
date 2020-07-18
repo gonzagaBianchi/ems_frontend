@@ -7,6 +7,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatCardModule } from '@angular/material/card';
 import { SharedModule } from '../shared/shared.module';
+import { MatIconModule } from '@angular/material/icon';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [ManagePersonsComponent],
@@ -18,7 +20,9 @@ import { SharedModule } from '../shared/shared.module';
     //Table component
     MatTableModule,
     MatPaginatorModule,
+    MatIconModule,
 
+    MatDialogModule,
     MatCardModule,
     SharedModule,
   ]

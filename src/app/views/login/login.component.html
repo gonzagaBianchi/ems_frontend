@@ -13,18 +13,18 @@
 						<input 
 							type="text" 
 							id="login" 
-							[class.is-invalid]="loginForm.get('email').invalid && loginForm.get('email').touched"
+							[class.is-invalid]="loginForm.get('username').invalid && loginForm.get('username').touched"
 							class="fadeIn second form-control" 
 							name="login" 
 							placeholder="username"
-							formControlName="email" 
+							formControlName="username" 
 							required>
 					</div>
 				</div>
 				<mat-error 
 					class="d-flex justify-content-center text-danger" 
-					*ngIf="loginForm.get('email').invalid && loginForm.get('email').touched">
-					Email required*
+					*ngIf="loginForm.get('username').invalid && loginForm.get('username').touched">
+					Username is required*
 				</mat-error>
 
 				<div class="row">
@@ -47,10 +47,11 @@
 				</mat-error>
 
 				<input 
-					type="submit" 
+					type="button" 
 					class="fadeIn fourth" 
 					value="Log In"
-					[disabled]="loginForm.get('password').invalid || loginForm.get('email').invalid"
+					(click)="login($event)"
+					[disabled]="loginForm.get('password').invalid || loginForm.get('username').invalid"
 					>
 			</form>
 		</div>
