@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { ManagePersonsComponent } from './manage-persons.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatCardModule } from '@angular/material/card';
-import { SharedModule } from '../shared/shared.module';
 import { MatIconModule } from '@angular/material/icon';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule, MatDialogContent } from '@angular/material/dialog';
+import { PersonModalComponent } from './person-modal/person-modal.component';
 
 @NgModule({
-  declarations: [ManagePersonsComponent],
+  declarations: [ManagePersonsComponent, PersonModalComponent],
   imports: [
     CommonModule,
     BrowserModule,
     ReactiveFormsModule,
+    FormsModule,
 
     //Table component
     MatTableModule,
@@ -23,8 +23,6 @@ import {MatDialogModule} from '@angular/material/dialog';
     MatIconModule,
 
     MatDialogModule,
-    MatCardModule,
-    SharedModule,
-  ]
+  ],
 })
 export class ManagePersonsModule { }

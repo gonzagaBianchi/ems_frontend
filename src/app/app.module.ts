@@ -9,7 +9,6 @@ import { Interceptor } from './auth/interceptor.module';
 import { LoginModule } from './views/login/login.module';
 import { ManagePersonsModule } from './views/manage-persons/manage-persons.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NewPersonComponent } from './views/new-person/new-person.component';
 
 @NgModule({
   declarations: [

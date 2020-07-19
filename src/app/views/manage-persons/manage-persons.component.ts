@@ -4,6 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ManagePersonsService } from '../../shared/services/manage-persons.service';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
+import { PersonModalComponent } from './person-modal/person-modal.component';
+// import { NewPersonComponent } from '../new-person/new-person.component';
 
 export interface personModel {
   id: number;
@@ -79,6 +81,8 @@ export class ManagePersonsComponent implements OnInit {
       return;
     }
 
+    this.openModalPerson(event);
+
     console.log("edit: ", event)
     return
     this.managePersonsService.editPerson(event).subscribe(
@@ -121,14 +125,33 @@ export class ManagePersonsComponent implements OnInit {
       return;
     }
 
-    // const dialogRef = this.modal.open(NewPersonComponent, {
-    //   width: '250px',
-    //   data: { name: 'tes', animal: 'animal' }
-    // });
+    const person = {
+      username: '',
+      password: '',
+      name: '',
+      age: '',
+      family: '',
+      role: '',
+      actions: '',
+    };
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   console.log('The dialog was closed');
-    // });
+    this.openModalPerson(person);
+
+  }
+
+  openModalPerson(event) {
+    if (!event) {
+      return;
+    }
+
+    const dialogRef = this.modal.open(PersonModalComponent, {
+      width: '500px',
+      data: event
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
 
   }
 }

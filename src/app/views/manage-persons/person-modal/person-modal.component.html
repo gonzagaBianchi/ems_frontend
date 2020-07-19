@@ -1,0 +1,111 @@
+<form [formGroup]="form">
+    <div class="input-content">
+        <input 
+            type="text" 
+            id="username" 
+            [class.is-invalid]="form.get('username').invalid && form.get('username').touched"
+            class="fadeIn second form-control" 
+            name="username" 
+            placeholder="username"
+            formControlName="username" 
+        >
+        <mat-error 
+            class="d-flex justify-content-center text-danger" 
+            *ngIf="form.get('username').invalid && form.get('username').touched">
+            Username is required*
+        </mat-error>
+    </div>
+
+    <div class="input-content">
+        <input 
+            type="text" 
+            id="password" 
+            [class.is-invalid]="form.get('password').invalid && form.get('password').touched"
+            class="fadeIn second form-control" 
+            name="password" 
+            placeholder="password"
+            formControlName="password" 
+        >
+        <mat-error 
+            class="d-flex justify-content-center text-danger" 
+            *ngIf="form.get('password').invalid && form.get('password').touched">
+            Password is required*
+        </mat-error>
+    </div>
+
+    <div class="input-content">
+        <input 
+            type="text" 
+            id="age" 
+            [class.is-invalid]="form.get('age').invalid && form.get('age').touched"
+            class="fadeIn second form-control" 
+            name="age" 
+            placeholder="Age"
+            formControlName="age" 
+        >
+        <mat-error 
+            class="d-flex justify-content-center text-danger" 
+            *ngIf="form.get('age').invalid && form.get('age').touched">
+            Age is required*
+        </mat-error>
+    </div>
+
+    <div class="input-content">
+        <input 
+            type="text" 
+            id="family" 
+            [class.is-invalid]="form.get('family').invalid && form.get('family').touched"
+            class="fadeIn second form-control" 
+            name="family" 
+            placeholder="Family"
+            formControlName="family" 
+        >
+        <mat-error 
+            class="d-flex justify-content-center text-danger" 
+            *ngIf="form.get('family').invalid && form.get('family').touched">
+            Family is required*
+        </mat-error>
+    </div>
+
+    <div class="input-content">
+        <input 
+            type="text" 
+            id="role" 
+            [class.is-invalid]="form.get('role').invalid && form.get('role').touched"
+            class="fadeIn second form-control" 
+            name="role" 
+            placeholder="Role"
+            formControlName="role" 
+        >
+        <mat-error 
+            class="d-flex justify-content-center text-danger" 
+            *ngIf="form.get('role').invalid && form.get('role').touched">
+            Role is required*
+        </mat-error>
+    </div>
+
+    <div class="input-content">
+        <input 
+            type="text" 
+            id="name" 
+            [class.is-invalid]="form.get('name').invalid && form.get('name').touched"
+            class="fadeIn second form-control" 
+            name="name" 
+            placeholder="Name"
+            formControlName="name" 
+        >
+        <mat-error 
+            class="d-flex justify-content-center text-danger" 
+            *ngIf="form.get('name').invalid && form.get('name').touched">
+            Name is required*
+        </mat-error>
+    </div>
+
+    <input 
+        type="button" 
+        class="content-submit" 
+        value="Log In"
+        (click)="submitForm($event)"
+        [disabled]="form.invalid"
+        >
+</form>

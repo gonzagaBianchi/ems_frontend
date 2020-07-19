@@ -1,12 +1,22 @@
 <section>
     <div class="topnav">
-        <a class="active" href="#home">create</a>
+        <a class="active">Ems- FrontEnd</a>
         <a href="#news">News</a>
         <a href="#contact">Contact</a>
         <a href="#about">About</a>
         <a href="#about">About</a>
         <a (click)="newPerson($event)">Create Person</a>
-      </div>
+    </div>
+
+    <div class="sub-nav">
+        <a>Manage Person</a>
+        <div class="div-second-nav">
+            <mat-icon>add</mat-icon>
+            <a (click)="newPerson($event)" class="btn-new-person">
+                New Person
+            </a>
+        </div>
+    </div>
 </section>
 
 <div class="container">
