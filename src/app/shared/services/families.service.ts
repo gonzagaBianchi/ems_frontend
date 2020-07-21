@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth-service';
+import { IFamily } from '../models/family.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,6 @@ export class FamiliesService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      // 'Accept': 'application/json',
       'Authorization': `Bearer ${this.auth.getTokenActual}`,
     })
   };
@@ -31,7 +31,7 @@ export class FamiliesService {
   }
 
   getFamilies() {
-    return this.http.get<any>(`${this.API_URL}/families`, this.httpOptions)
+    return this.http.get<IFamily[]>(`${this.API_URL}/families`, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 

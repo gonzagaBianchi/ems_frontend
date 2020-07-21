@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonModalComponent } from './person-modal/person-modal.component';
 import { IPerson } from '../../shared/models/person.model';
+import { FamiliesService } from 'src/app/shared/services/families.service';
 
 @Component({
   selector: 'app-manage-persons',
@@ -17,8 +18,9 @@ export class ManagePersonsComponent implements OnInit {
 
   constructor(
     private managePersonsService: ManagePersonsService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private familiesService: FamiliesService,
     public modal: MatDialog,
-    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   public displayedColumns: string[] = [
@@ -30,18 +32,16 @@ export class ManagePersonsComponent implements OnInit {
     'role',
     'actions'
   ];
-  public acoesDaTabela = [];
+
+  familyData: Array<object>;
 
   dataSource = new MatTableDataSource<IPerson>();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit(): void {
+    this.getFamily();
     this.listPersons();
-    // this.paginator.length = this.dataSource.data.length;
-
   }
-
-
 
   listPersons() {
     this.managePersonsService.getPersons().subscribe(
@@ -90,7 +90,6 @@ export class ManagePersonsComponent implements OnInit {
         )
       }
     });
-
   }
 
   newPerson(event) {
@@ -109,7 +108,6 @@ export class ManagePersonsComponent implements OnInit {
     };
 
     this.openModalPerson(person);
-
   }
 
   openModalPerson(event) {
@@ -124,9 +122,25 @@ export class ManagePersonsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.listPersons();
-      console.log(`Dialog result: ${result}`);
     });
+  }
 
+  getFamily() {
+    this.familiesService.getFamilies().subscribe(
+      result => {
+        this.familyData = [];
+
+        result.forEach(element => {
+          let x = { id: element.id, name: element.name };
+          this.familyData.push(x);
+        });
+
+        console.log("res: ", result);
+      },
+      error => {
+        Swal.fire('Error!', error, 'warning');
+      }
+    )
   }
 }
 

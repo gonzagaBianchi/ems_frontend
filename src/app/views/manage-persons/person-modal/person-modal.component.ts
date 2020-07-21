@@ -37,7 +37,6 @@ export class PersonModalComponent implements OnInit {
   roleData: Array<object> = [
     { name: 'Admin', value: 'admin' },
     { name: 'Normal', value: 'normal' },
-
   ];
 
   constructor(

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './views/login/login.component';
 import { ManagePersonsComponent } from './views/manage-persons/manage-persons.component';
+import { ManageFamilyComponent } from './views/manage-family/manage-family.component';
 
 const routes: Routes = [
 
@@ -20,6 +21,7 @@ const routes: Routes = [
       },
       { path: '', redirectTo: '/login', pathMatch: 'full' },
       { path: 'managePersons', component: ManagePersonsComponent },
+      { path: 'manageFamily', component: ManageFamilyComponent },
       // { path: '**', redirectTo: 'error/404' },
       // { path: '**', redirectTo: 'error/403', pathMatch: 'full' },
     ],
