@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { AuthService } from 'src/app/auth/auth-service';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 @Injectable({
@@ -11,44 +12,42 @@ export class ManagePersonsService {
 
   API_URL = `${environment.baseUrlservice}`;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService
+  ) { }
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': `Bearer ${this.auth.getTokenActual}`,
+    })
   };
 
   findPerson(idPerson: any) {
-    return this.http.get<any>(`${this.API_URL}/api/persons/{${idPerson}}`)
+    return this.http.get<any>(`${this.API_URL}persons/{${idPerson}}`, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
   getPersons() {
-    return this.http.get<any>(`${this.API_URL}/api/persons`)
+    return this.http.get<any>(`${this.API_URL}/persons`, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
   createPerson(params: any) {
-  //   {
-  //     "username": "user1",
-  //     "password": "password",
-  //     "name": "person1",
-  //     "age": 33,
-  //     "family": 0,
-  //     "role": "normal"
-  // }
-    return this.http.post<any>(`${this.API_URL}/api/persons`, JSON.stringify(params), this.httpOptions).pipe(
+    return this.http.post<any>(`${this.API_URL}/persons`, JSON.stringify(params), this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   editPerson(params: any) {
-    return this.http.put(`${this.API_URL}/api/persons/{${params.id}}`, JSON.stringify(params), this.httpOptions).pipe(
+    return this.http.put(`${this.API_URL}/persons/{${params.id}}`, JSON.stringify(params), this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   deletePerson(idPerson: string) {
-    return this.http.delete(`${this.API_URL}/api/persons/{${idPerson}}`)
+    return this.http.delete(`${this.API_URL}/persons/${idPerson}`,  this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );

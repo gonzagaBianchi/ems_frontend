@@ -63,9 +63,11 @@ body {
   .btn-new-person{
     padding-top: 2px;
     cursor: pointer;
+    padding-right: 25px;
   }
 
   .div-second-nav{
     float: right;
     display: flex;
+    cursor: pointer;
   }

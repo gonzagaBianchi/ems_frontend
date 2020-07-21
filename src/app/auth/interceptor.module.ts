@@ -2,12 +2,14 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Injectable } from '@angular/core';
 import { throwError, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
 
     constructor(
         // private auth: AuthGuard
+        private route: Router
     ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -39,6 +41,8 @@ export class Interceptor implements HttpInterceptor {
             errorMessage = 'Servidor indiponível, tente novamente mais tarde';
         } else if (error.status == 0) {
             errorMessage = 'Servidor indiponível, tente novamente mais tarde';
+        } else if (error.status == 403) {
+            // this.route.navigateByUrl("/login");
         } else {
             if (error.error instanceof ErrorEvent) {
                 errorMessage = error.error.message;

@@ -3,6 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth-service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,24 +11,32 @@ import { throwError } from 'rxjs';
 export class FamiliesService {
   API_URL = `${environment.baseUrlservice}`;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private auth: AuthService,
 
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    ) { }
+
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json; charset=utf-8',
+      // 'Accept': 'application/json',
+      'Authorization': `Bearer ${this.auth.getTokenActual}`,
+    })
   };
 
   findFamily(id: any) {
-    return this.http.get<any>(`${this.API_URL}/api/families/{${id}}`)
+    return this.http.get<any>(`${this.API_URL}/families/{${id}}`, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
   getFamilies() {
-    return this.http.get<any>(`${this.API_URL}/api/families`)
+    return this.http.get<any>(`${this.API_URL}/families`, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
   createFamily(params: any) {
-    return this.http.post<any>(`${this.API_URL}/api/families`, JSON.stringify(params), this.httpOptions).pipe(
+    return this.http.post<any>(`${this.API_URL}/families`, JSON.stringify(params), this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }

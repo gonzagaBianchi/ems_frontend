@@ -1,21 +1,11 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { ManagePersonsService } from '../../shared/services/manage-persons.service';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonModalComponent } from './person-modal/person-modal.component';
-// import { NewPersonComponent } from '../new-person/new-person.component';
-
-export interface personModel {
-  id: number;
-  username: string;
-  password: string;
-  name: string;
-  age: number;
-  family: number;
-  role: string;
-};
+import { IPerson } from '../../shared/models/person.model';
 
 @Component({
   selector: 'app-manage-persons',
@@ -28,6 +18,7 @@ export class ManagePersonsComponent implements OnInit {
   constructor(
     private managePersonsService: ManagePersonsService,
     public modal: MatDialog,
+    private changeDetectorRef: ChangeDetectorRef
   ) { }
 
   public displayedColumns: string[] = [
@@ -41,83 +32,65 @@ export class ManagePersonsComponent implements OnInit {
   ];
   public acoesDaTabela = [];
 
-  dataSource = new MatTableDataSource<personModel>(personData);
+  dataSource = new MatTableDataSource<IPerson>();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   ngOnInit(): void {
-    this.dataSource.paginator = this.paginator;
+    this.listPersons();
+    // this.paginator.length = this.dataSource.data.length;
 
-    this.buildActionsTable();
-
-    // this.listPersons();
   }
-  buildActionsTable() {
 
 
-    this.acoesDaTabela.push({
-      nomeIcone: 'editar',
-      tooltip: 'Editar Rota'
-    });
-
-    this.acoesDaTabela.push({
-      nomeIcone: 'excluir',
-      tooltip: 'Excluir Rota'
-    });
-  }
 
   listPersons() {
     this.managePersonsService.getPersons().subscribe(
       result => {
-        this.dataSource = result;
+        this.dataSource = new MatTableDataSource<IPerson>(result);
+        this.dataSource.paginator = this.paginator;
       },
       error => {
+        // falar sobre mensagem API
         Swal.fire('Error!', error, 'warning');
+      },
+      () => {
+        this.changeDetectorRef.detectChanges();
       }
     )
   }
 
   editPerson(event) {
-    if (!event) {
-      return;
-    }
-
     this.openModalPerson(event);
-
-    console.log("edit: ", event)
-    return
-    this.managePersonsService.editPerson(event).subscribe(
-      result => {
-        Swal.fire(
-          'Edited!',
-          'Value Edited.',
-          'success'
-        );
-      },
-      error => {
-        Swal.fire('Error!', error, 'warning');
-      }
-    )
   }
 
-  deletePerson(event) {
-    if (!event) {
-      return;
-    }
+  deletePerson(element: IPerson) {
+    Swal.fire({
+      title: 'Do you have shure?',
+      text: 'You cannot to reverse it',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ok'
+    }).then((result) => {
+      if (result.value) {
+        this.managePersonsService.deletePerson(element.id).subscribe(
+          result => {
+            Swal.fire(
+              'Deleted!',
+              'Value Deleted.',
+              'success'
+            );
 
-    console.log("delete: ", event)
-    return
-    this.managePersonsService.deletePerson(event.id).subscribe(
-      result => {
-        Swal.fire(
-          'Deleted!',
-          'Value Deleted.',
-          'success'
-        );
-      },
-      error => {
-        Swal.fire('Error!', error, 'warning');
+            this.listPersons();
+          },
+          error => {
+            Swal.fire('Error!', error, 'warning');
+          }
+        )
       }
-    )
+    });
+
   }
 
   newPerson(event) {
@@ -150,25 +123,12 @@ export class ManagePersonsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      this.listPersons();
       console.log(`Dialog result: ${result}`);
     });
 
   }
 }
-
-const personData: personModel[] = [
-  { id: 1, username: "admin", password: "admin", name: "", age: 0, family: 9, role: "admin" },
-  { id: 2, username: "person2", password: "pass", name: "", age: 0, family: 9, role: "normal" },
-  { id: 3, username: "person3", password: "pass", name: "", age: 0, family: 9, role: "normal" },
-  { id: 4, username: "person4", password: "pass", name: "", age: 0, family: 9, role: "normal" },
-  { id: 5, username: "person5", password: "pass", name: "", age: 0, family: 9, role: "normal" },
-  { id: 6, username: "person6", password: "pass", name: "", age: 0, family: 9, role: "normal" },
-  { id: 7, username: "person7", password: "pass", name: "", age: 0, family: 9, role: "normal" },
-  { id: 8, username: "person8", password: "pass", name: "", age: 0, family: 9, role: "normal" },
-  { id: 9, username: "person9", password: "pass", name: "", age: 0, family: 9, role: "normal" },
-  { id: 10, username: "person10", password: "pass", name: "", age: 0, family: 9, role: "normal" },
-
-];
 
 
 

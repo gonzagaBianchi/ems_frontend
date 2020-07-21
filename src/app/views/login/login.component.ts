@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { LoginService } from '../../shared/services/login.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,13 +13,14 @@ export class LoginComponent implements OnInit {
 
   //public variables
   public loginForm = this.fb.group({
-    username: new FormControl('', [Validators.required,]),//Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
-    password: new FormControl('', [Validators.required]),
+    username: new FormControl('admin', [Validators.required,]),//Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$")
+    password: new FormControl('qwerty123', [Validators.required]),
   });
 
   constructor(
     private loginService: LoginService,
     private fb: FormBuilder,
+    private router: Router,
 
   ) { }
 
@@ -35,15 +37,9 @@ export class LoginComponent implements OnInit {
     this.loginService.loginUser(this.loginForm.value)
       .subscribe(
         res => {
-          console.log("res");
-          // const alerta: AlertaComponent = new AlertaComponent(this.snackBar);
-          // alerta.exibir(`O tipo '${tipoChecklist.get('nome').value}' foi adicionado`);
-
-          // this.salvando = false;
-          // this.activeModal.close(this.criarTipoFormGroup);
+          this.router.navigateByUrl('\managePersons')
         },
         error => {
-          // this.salvando = false;
           Swal.fire('Erro!', error, 'warning');
         }
       );

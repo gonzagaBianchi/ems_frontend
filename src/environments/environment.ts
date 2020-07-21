@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  baseUrlservice:'https://backend1.recruitment.cybersecurity.cloud/api',
+  typeAccessToken: 'token',
+  baseUrlservice: 'https://backend1.recruitment.cybersecurity.cloud/api',
 };
 
 

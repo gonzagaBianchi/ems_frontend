@@ -6,8 +6,11 @@ import { ManagePersonsComponent } from './manage-persons.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
-import { MatDialogModule, MatDialogContent } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { PersonModalComponent } from './person-modal/person-modal.component';
+import {MatSelectModule} from '@angular/material/select'
+import { MatFormFieldModule } from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [ManagePersonsComponent, PersonModalComponent],
@@ -16,13 +19,16 @@ import { PersonModalComponent } from './person-modal/person-modal.component';
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
-
-    //Table component
+    
+    // Angular Material modules
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,
-
+    MatSelectModule,
     MatDialogModule,
+    MatFormFieldModule,
+    MatInputModule
+    
   ],
 })
 export class ManagePersonsModule { }
