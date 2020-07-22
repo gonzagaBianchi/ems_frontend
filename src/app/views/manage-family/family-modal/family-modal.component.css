@@ -1,0 +1,100 @@
+.btn-next{
+    float: right;
+    background-color: #56baed;
+    border: none;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.btn-next:disabled{
+  background-color: #A9A9A9;
+}
+
+.btn-back{
+    float: left;
+    background-color: #56baed;
+    border: none;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.input-content-form{
+    background-color: #f6f6f6;
+    border: none;
+    border: 2px solid #f6f6f6;
+    text-align: center;
+    padding: 1px;
+    height: 40px;
+    margin: 4px;
+}
+
+::ng-deep .mat-form-field-underline {
+    display: none;
+}
+
+.step-content{
+    justify-content: left;
+    display: flex;
+}
+
+input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
+  background-color: #39ace7;
+}
+
+.form-field-select{
+  margin-top: 4px;
+  margin-bottom: 4px;
+  padding-bottom: 2px;
+  height: 50px;
+  text-align: center;
+}
+
+.btn-add-person{
+  cursor: pointer;
+  margin-left: 5px;
+}
+.btn-add-person:disabled{
+  cursor: inherit;
+  margin-left: 5px;
+}
+
+.form-new-person{
+  margin-top: 5px;
+}
+
+.icon-add-person{
+  margin-bottom: 15px;
+}
+
+.container-table{
+  margin: 30px;
+  justify-content: center;
+}
+
+table{
+  width: 100%;
+}
+
+button{
+  outline-style: none;
+}
+
+.table{border-collapse:collapse;border-spacing:0;width:100%;display:table}
+.bordered tr {border-bottom:1px solid #ddd}
+.striped tbody tr:nth-child(even){background-color:#f1f1f1}
+.table td,.table th {padding:8px 8px;display:table-cell;text-align:left;vertical-align:top}
+.table tr, td, a {text-decoration: none;}
+
+.button-table{
+  cursor: pointer;
+}
+
+.content-dialog-end{
+  display: contents;
+}
+
+::ng-deep .mat-step-header:hover{
+  background-color: #f1f1f1;
+}

@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { ManagePersonsService } from 'src/app/shared/services/manage-persons.service';
 import { FamiliesService } from 'src/app/shared/services/families.service';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { IPerson } from 'src/app/shared/models/person.model';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -43,7 +44,7 @@ export class PersonModalComponent implements OnInit {
     private fb: FormBuilder,
     private changeDetect: ChangeDetectorRef,
     public dialogRef: MatDialogRef<PersonModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: IPerson,
     private managePersonsService: ManagePersonsService,
     private familiesService: FamiliesService,
 

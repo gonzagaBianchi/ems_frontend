@@ -9,7 +9,7 @@
         <a>Manage Family</a>
         <div class="div-second-nav">
             <mat-icon>add</mat-icon>
-            <a (click)="newFamily($event)" class="btn-new-person">
+            <a (click)="newFamily($event)" class="btn-new-family">
                 New Family
             </a>
         </div>
@@ -41,7 +41,7 @@
                     <td mat-cell *matCellDef="let element">
                         <mat-icon 
                             class="button-table"
-                            (click)="editPerson(element)" 
+                            (click)="editFamily(element)" 
                             aria-hidden="false" 
                             aria-label="Edit"
                             >
@@ -49,7 +49,7 @@
                         </mat-icon> 
                         <mat-icon 
                             class="button-table"
-                            (click)="deletePerson(element)" 
+                            (click)="deleteFamily(element)" 
                             aria-hidden="false" 
                             color="warn" aria-label="Delete">
                             delete

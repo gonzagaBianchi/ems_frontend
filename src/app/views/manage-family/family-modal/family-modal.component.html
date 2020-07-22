@@ -1,1 +1,89 @@
-<p>family-modal works!</p>
+<h2 mat-dialog-title>Install Angular</h2>
+<mat-dialog-content class="dialog-modal">
+    <mat-horizontal-stepper [linear]="isLinear" #stepper>
+        <form [formGroup]="form">
+            <mat-step>
+                <ng-template matStepLabel>Edit Family</ng-template>
+                <div class="step-content">
+                    <mat-form-field class="input-content-form">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name" required>
+                        <mat-error class="d-flex justify-content-center text-danger"
+                            *ngIf="form.get('name').invalid && form.get('name').touched">
+                            Name is required*
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field class="input-content-form">
+                        <mat-label>max_persons</mat-label>
+                        <input matInput type="number" formControlName="max_persons" required>
+                        <mat-error class="d-flex justify-content-center text-danger"
+                            *ngIf="form.get('max_persons').invalid && form.get('max_persons').touched">
+                            Name is required*
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </mat-step>
+            <mat-step>
+                <ng-template matStepLabel>Persons</ng-template>
+                <div class="container-persons">
+                    <mat-form-field [formGroup]="formPerson" appearance="fill"
+                        class="form-field-select form-new-person">
+                        <mat-label>Person option</mat-label>
+                        <mat-select formControlName="id">
+                            <mat-option *ngFor="let item of personsData" [value]="item.id">
+                                {{item.username}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <button 
+                        mat-raised-button 
+                        [disabled]="formPerson.get('id').hasError('required') || form.get('max_persons').value >= form.get('persons').value.length" 
+                        color="primary"
+                        aria-label="Add" matTooltip="Add Person to Family" (click)="addPersonToFamily()"
+                        class="btn-add-person"> Add Person
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </div>
+
+                <div class="container-table" formArrayName="persons">
+                    <table class="table striped bordered">
+                        <tr>
+                            <th>Username</th>
+                            <th>Actions</th>
+                        </tr>
+
+                        <tr *ngFor="let list of form.controls.persons?.value;let i = index" [formGroupName]="i">
+                            <td>
+                                {{list.username}}
+                            </td>
+                            <td>
+                                <mat-icon 
+                                    class="button-table"
+                                    (click)="removePerson(i)" 
+                                    aria-hidden="false" 
+                                    color="warn" aria-label="Delete">
+                                    delete
+                                </mat-icon>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </mat-step>
+        </form>
+    </mat-horizontal-stepper>
+</mat-dialog-content>
+<mat-dialog-actions align="end" class="content-dialog-end">
+    <button mat-button *ngIf="stepper.selectedIndex !== 0" (click)="stepper.previous()" class="btn-back">Back</button>
+    <button mat-button 
+        *ngIf="stepper.selectedIndex === 0" 
+        (click)="!form.invalid ? stepper.next() : ''" 
+        class="btn-next"
+        [disabled]="form.invalid"
+        >Next</button>
+    <button mat-button
+        *ngIf="stepper.selectedIndex === 1"
+        (click)="submitForm()" 
+        class="btn-next"
+        [disabled]="validSave($event)"
+        >Save</button>
+</mat-dialog-actions>

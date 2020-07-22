@@ -1,101 +1,104 @@
 <h2 mat-dialog-title>{{(form.get('id').value ? 'Edit Person' : 'Create Person')}}</h2>
-<form [formGroup]="form">
-    <div class="content-form">
-        <mat-form-field class="input-content-form"> 
+
+<mat-dialog-content>
+    <form [formGroup]="form">
+        <div class="content-form">
+            <mat-form-field class="input-content-form"> 
+                <input matInput 
+                    formControlName="username" 
+                    class="mat-input" 
+                    [errorStateMatcher]="matcher"
+                    placeholder="Username">
+            </mat-form-field>
+            <br>
+        </div>
+        <mat-error 
+            class="d-flex justify-content-center text-danger" 
+            *ngIf="form.get('username').invalid && form.get('username').touched">
+            Username is required*
+        </mat-error>
+
+        <div class="content-form">
+            <mat-form-field class="input-content-form"> 
             <input matInput 
-                formControlName="username" 
+                formControlName="password" 
                 class="mat-input" 
                 [errorStateMatcher]="matcher"
-                placeholder="Username">
-        </mat-form-field>
-        <br>
-    </div>
-    <mat-error 
-        class="d-flex justify-content-center text-danger" 
-        *ngIf="form.get('username').invalid && form.get('username').touched">
-        Username is required*
-    </mat-error>
+                placeholder="Password">
+            </mat-form-field>
+            <br>
+        </div>
+        <mat-error 
+            class="d-flex justify-content-center text-danger" 
+            *ngIf="form.get('password').invalid && form.get('password').touched">
+            Username is required*
+        </mat-error>
 
-    <div class="content-form">
-        <mat-form-field class="input-content-form"> 
-        <input matInput 
-            formControlName="password" 
-            class="mat-input" 
-            [errorStateMatcher]="matcher"
-            placeholder="Password">
-        </mat-form-field>
-        <br>
-    </div>
-    <mat-error 
-        class="d-flex justify-content-center text-danger" 
-        *ngIf="form.get('password').invalid && form.get('password').touched">
-        Username is required*
-    </mat-error>
+        <div class="content-form">
+            <mat-form-field class="input-content-form"> 
+            <input matInput 
+                type="number"
+                formControlName="age" 
+                class="mat-input mat-input-number" 
+                [errorStateMatcher]="matcher"
+                placeholder="Age">
+            </mat-form-field>
+            <br>
+        </div>
+        <mat-error 
+            class="d-flex justify-content-center text-danger" 
+            *ngIf="form.get('age').invalid && form.get('age').touched">
+            Username is required*
+        </mat-error>
 
-    <div class="content-form">
-        <mat-form-field class="input-content-form"> 
-        <input matInput 
-            type="number"
-            formControlName="age" 
-            class="mat-input mat-input-number" 
-            [errorStateMatcher]="matcher"
-            placeholder="Age">
-        </mat-form-field>
-        <br>
-    </div>
-    <mat-error 
-        class="d-flex justify-content-center text-danger" 
-        *ngIf="form.get('age').invalid && form.get('age').touched">
-        Username is required*
-    </mat-error>
+        <div class="input-content">
+            <mat-form-field appearance="fill" class="form-field-select" >
+                <mat-label>Family option</mat-label>
+                <mat-select formControlName="family">
+                    <mat-option *ngFor="let item of familyData" [value]="item.id">
+                    {{item.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('family').hasError('required')">Please choose an family</mat-error>
+            </mat-form-field>
+        </div>
 
-    <div class="input-content">
-        <mat-form-field appearance="fill" class="form-field-select" >
-            <mat-label>Family option</mat-label>
-            <mat-select formControlName="family">
-                <mat-option *ngFor="let item of familyData" [value]="item.id">
-                {{item.name}}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="form.get('family').hasError('required')">Please choose an family</mat-error>
-        </mat-form-field>
-    </div>
+        <div class="input-content">
+            <mat-form-field appearance="fill" class="form-field-select" >
+                <mat-label>Role option</mat-label>
+                <mat-select formControlName="role">
+                    <mat-option *ngFor="let item of roleData" [value]="item.value">
+                    {{item.name}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('role').hasError('required')">Please choose an role</mat-error>
+            </mat-form-field>
+        </div>
 
-    <div class="input-content">
-        <mat-form-field appearance="fill" class="form-field-select" >
-            <mat-label>Role option</mat-label>
-            <mat-select formControlName="role">
-                <mat-option *ngFor="let item of roleData" [value]="item.value">
-                {{item.name}}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="form.get('role').hasError('required')">Please choose an role</mat-error>
-        </mat-form-field>
-    </div>
+        <div class="content-form">
+            <mat-form-field class="input-content-form"> 
+            <input matInput 
+                formControlName="name" 
+                class="mat-input" 
+                [errorStateMatcher]="matcher"
+                placeholder="Name">
+            </mat-form-field>
+            <br>
+        </div>
+        <mat-error 
+            class="d-flex justify-content-center text-danger" 
+            *ngIf="form.get('name').invalid && form.get('name').touched">
+            Username is required*
+        </mat-error>
 
-    <div class="content-form">
-        <mat-form-field class="input-content-form"> 
-        <input matInput 
-            formControlName="name" 
-            class="mat-input" 
-            [errorStateMatcher]="matcher"
-            placeholder="Name">
-        </mat-form-field>
-        <br>
-    </div>
-    <mat-error 
-        class="d-flex justify-content-center text-danger" 
-        *ngIf="form.get('name').invalid && form.get('name').touched">
-        Username is required*
-    </mat-error>
-
-    <div class="input-content submit-content">
-        <input 
-        type="button" 
-        class="content-submit" 
-        [value]="form.get('id').value ? 'Edit' : 'Save'"
-        (click)="submitForm($event)"
-        >
-        <!-- [disabled]="form.invalid" -->
-    </div>
-</form>
+        <div class="input-content submit-content">
+            <input 
+            type="button" 
+            class="content-submit" 
+            [value]="form.get('id').value ? 'Edit' : 'Save'"
+            (click)="submitForm($event)"
+            >
+            <!-- [disabled]="form.invalid" -->
+        </div>
+    </form>
+</mat-dialog-content>

@@ -72,7 +72,7 @@ export class ManageFamilyComponent implements OnInit {
     }
 
     const dialogRef = this.modal.open(FamilyModalComponent, {
-      width: '500px',
+      width: '800px',
       data: event
     });
 
@@ -80,5 +80,4 @@ export class ManageFamilyComponent implements OnInit {
       this.listFamily();
     });
   }
-
 }
