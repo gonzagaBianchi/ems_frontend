@@ -138,10 +138,6 @@ export class FamilyModalComponent implements OnInit {
     const teste = this.form.controls.persons as FormArray;
     teste.removeAt(index);
 
-    console.log("texte", this.form.controls.persons);
-
-
-
     this.changeDetectorRef.detectChanges();
   }
 
