@@ -5,6 +5,7 @@
     color: white;
     text-transform: uppercase;
     border-radius: 5px 5px 5px 5px;
+    margin-top: 15px;
 }
 
 .btn-next:disabled{
@@ -18,6 +19,7 @@
     color: white;
     text-transform: uppercase;
     border-radius: 5px 5px 5px 5px;
+    margin-top: 15px;
 }
 
 .input-content-form{
@@ -71,6 +73,8 @@ input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
 .container-table{
   margin: 30px;
   justify-content: center;
+  /* height: 80vh; */
+  /* max-height: 80vh; */
 }
 
 table{
@@ -97,4 +101,8 @@ button{
 
 ::ng-deep .mat-step-header:hover{
   background-color: #f1f1f1;
+}
+
+.btn-delete{
+  background-color: white !important;
 }

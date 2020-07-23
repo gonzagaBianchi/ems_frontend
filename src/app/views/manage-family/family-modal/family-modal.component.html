@@ -1,4 +1,3 @@
-<h2 mat-dialog-title>Install Angular</h2>
 <mat-dialog-content class="dialog-modal">
     <mat-horizontal-stepper [linear]="isLinear" #stepper>
         <form [formGroup]="form">
@@ -15,10 +14,21 @@
                     </mat-form-field>
                     <mat-form-field class="input-content-form">
                         <mat-label>max_persons</mat-label>
-                        <input matInput type="number" formControlName="max_persons" required>
+                        <input 
+                            matInput 
+                            type="number" 
+                            formControlName="max_persons" 
+                            required
+                            >
+                        
                         <mat-error class="d-flex justify-content-center text-danger"
-                            *ngIf="form.get('max_persons').invalid && form.get('max_persons').touched">
-                            Name is required*
+                        *ngIf="form.get('max_persons').errors?.min && form.get('max_persons').touched">
+                            The Number cannot be less than associated persons
+                        </mat-error>
+
+                        <mat-error class="d-flex justify-content-center text-danger"
+                            *ngIf="form.get('max_persons').errors?.required && form.get('max_persons').touched">
+                            max_persons is required*
                         </mat-error>
                     </mat-form-field>
                 </div>
@@ -37,7 +47,7 @@
                     </mat-form-field>
                     <button 
                         mat-raised-button 
-                        [disabled]="formPerson.get('id').hasError('required') || form.get('max_persons').value >= form.get('persons').value.length" 
+                        [disabled]="!formPerson.get('id').value" 
                         color="primary"
                         aria-label="Add" matTooltip="Add Person to Family" (click)="addPersonToFamily()"
                         class="btn-add-person"> Add Person
@@ -49,6 +59,9 @@
                     <table class="table striped bordered">
                         <tr>
                             <th>Username</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Age</th>
                             <th>Actions</th>
                         </tr>
 
@@ -57,13 +70,24 @@
                                 {{list.username}}
                             </td>
                             <td>
-                                <mat-icon 
-                                    class="button-table"
-                                    (click)="removePerson(i)" 
-                                    aria-hidden="false" 
-                                    color="warn" aria-label="Delete">
-                                    delete
-                                </mat-icon>
+                                {{list.name || '-'}}
+                            </td>
+                            <td>
+                                {{list.role}}
+                            </td>
+                            <td>
+                                {{list.age || '-'}}
+                            </td>
+                            <td>
+                                <button class="btn-delete" matTooltip="Remove Person From Family" mat-mini-fab disabled>
+                                    <mat-icon 
+                                        class="button-table"    
+                                        (click)="removePerson(i)" 
+                                        aria-hidden="false" 
+                                        color="warn" aria-label="Delete">
+                                        delete
+                                    </mat-icon>
+                                </button>
                             </td>
                         </tr>
                     </table>
@@ -75,15 +99,15 @@
 <mat-dialog-actions align="end" class="content-dialog-end">
     <button mat-button *ngIf="stepper.selectedIndex !== 0" (click)="stepper.previous()" class="btn-back">Back</button>
     <button mat-button 
-        *ngIf="stepper.selectedIndex === 0" 
-        (click)="!form.invalid ? stepper.next() : ''" 
-        class="btn-next"
         [disabled]="form.invalid"
+        *ngIf="stepper.selectedIndex === 0" 
+        (click)="stepper.next()" 
+        class="btn-next"
         >Next</button>
     <button mat-button
         *ngIf="stepper.selectedIndex === 1"
         (click)="submitForm()" 
         class="btn-next"
-        [disabled]="validSave($event)"
+        [disabled]="validSave()"
         >Save</button>
 </mat-dialog-actions>

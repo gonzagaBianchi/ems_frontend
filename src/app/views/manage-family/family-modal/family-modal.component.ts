@@ -7,6 +7,8 @@ import { ManagePersonsService } from 'src/app/shared/services/manage-persons.ser
 import { MatTableDataSource } from '@angular/material/table';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatStepper } from '@angular/material/stepper';
+import { switchAll } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -29,7 +31,7 @@ export class FamilyModalComponent implements OnInit {
 
   public personsArray = this.fb.array([]);
   formPerson = this.fb.group({
-    id: new FormControl('', Validators.required)
+    id: new FormControl('')
   });
 
   public personsData;
@@ -37,7 +39,7 @@ export class FamilyModalComponent implements OnInit {
   form: FormGroup = this.fb.group({
     id: new FormControl(''),
     name: new FormControl('', Validators.required),
-    max_persons: new FormControl('', Validators.required),
+    max_persons: new FormControl(Validators.required),
     persons: this.fb.array([]),
     teste: new FormControl(),
   });
@@ -69,11 +71,26 @@ export class FamilyModalComponent implements OnInit {
       pers.push(personData);
     })
 
-
     this.form.patchValue({
       id: this.data.id ? this.data.id : null,
       name: this.data.name,
       max_persons: this.data.max_persons,
+    });
+
+
+    // Initializing validator.min with persons length
+    this.form.controls.max_persons.setValidators([
+      Validators.required,
+      Validators.min(this.form.get('persons').value.length)
+    ]);
+
+
+    // change of person list will change the max_person validator
+    this.form.controls.persons.valueChanges.subscribe(val => {
+      this.form.controls.max_persons.setValidators([
+        Validators.required,
+        Validators.min(this.form.get('persons').value.length)
+      ]);
     });
 
   }
@@ -91,12 +108,17 @@ export class FamilyModalComponent implements OnInit {
   }
 
   submitForm(event) {
-    console.log("this form", this.form)
-    console.log("this personsArray", this.personsArray)
+    console.log("this form", this.form.value)
+
 
   }
 
   addPersonToFamily() {
+    if (!this.verifyMaxPersonNumber()) {
+      Swal.fire('Not Allowed!', "Maximum Number Reached", 'warning');
+      return;
+    }
+
     let idPerson = this.formPerson.get('id').value;
     var person: IPerson = this.personsData.filter(event => {
       return event.id == idPerson
@@ -112,9 +134,30 @@ export class FamilyModalComponent implements OnInit {
   }
 
   removePerson(index: number) {
+    console.log("index: ", index);
     const teste = this.form.controls.persons as FormArray;
     teste.removeAt(index);
 
+    console.log("texte", this.form.controls.persons);
+
+
+
     this.changeDetectorRef.detectChanges();
+  }
+
+  validSave() {
+    if (this.form.get('persons').value.length > this.form.get('max_persons').value) {
+      return true;
+    }
+
+    return false;
+  }
+
+  verifyMaxPersonNumber(): boolean {
+    if (this.form.get('max_persons').value === this.form.get('persons').value.length) {
+      return false;
+    }
+
+    return true;
   }
 }

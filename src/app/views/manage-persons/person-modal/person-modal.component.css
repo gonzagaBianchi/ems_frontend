@@ -76,3 +76,7 @@ input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
 .mat-input-number{
   margin-left: 17px;
 }
+
+.content-dialog{
+  overflow: hidden;
+}

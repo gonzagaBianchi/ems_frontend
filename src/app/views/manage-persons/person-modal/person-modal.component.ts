@@ -29,8 +29,8 @@ export class PersonModalComponent implements OnInit {
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     name: new FormControl(''),
-    age: new FormControl(),
-    family: new FormControl(),
+    age: new FormControl(Validators.required),
+    family: new FormControl(Validators.required),
     role: new FormControl(''),
   })
 

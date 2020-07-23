@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild, Inject, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
 import { ManagePersonsService } from '../../shared/services/manage-persons.service';
 import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
 import { PersonModalComponent } from './person-modal/person-modal.component';
 import { IPerson } from '../../shared/models/person.model';
 import { FamiliesService } from 'src/app/shared/services/families.service';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-manage-persons',
@@ -35,26 +36,47 @@ export class ManagePersonsComponent implements OnInit {
 
   familyData: Array<object>;
 
-  dataSource = new MatTableDataSource<IPerson>();
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+  dataSource = new MatTableDataSource<IPerson>();
+  @BlockUI('tableList') blockUI: NgBlockUI;
+  public searchResults = "Search for Results";
+  isLoading = true;
 
   ngOnInit(): void {
     this.getFamily();
     this.listPersons();
   }
 
+  startLoad() {
+    this.isLoading = true;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  stopLoad() {
+    this.isLoading = false
+    this.changeDetectorRef.detectChanges();
+  }
+
   listPersons() {
+    this.startLoad();
+
     this.managePersonsService.getPersons().subscribe(
       result => {
         this.dataSource = new MatTableDataSource<IPerson>(result);
         this.dataSource.paginator = this.paginator;
+
+        console.log("paginator:", this.dataSource.paginator)
+        console.log("this paginator:", this.paginator)
       },
       error => {
+        this.stopLoad();
+
         // falar sobre mensagem API
         Swal.fire('Error!', error, 'warning');
       },
       () => {
-        this.changeDetectorRef.detectChanges();
+        this.stopLoad();
+
       }
     )
   }

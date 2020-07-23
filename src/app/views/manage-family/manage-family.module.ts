@@ -15,6 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
+import { BlockUIModule } from 'ng-block-ui';
+import { CdkScrollableModule } from '@angular/cdk/scrolling';
 
 
 
@@ -36,6 +38,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatStepperModule,
     MatTooltipModule,
     MatButtonModule,
+    CdkScrollableModule
 
   ]
 })

@@ -6,6 +6,13 @@
     padding-top: 30px;
 }
 
+.no-result-container{
+    width: 100%;
+    background: #fff;
+    text-align: center;
+    padding: 15px;
+}
+
 .box {
     width: 100%;
     background: #fff;
@@ -72,4 +79,17 @@ body {
 
 table{
     width: 100%;
+}
+
+.title-table{
+    padding:15px;
+    margin: 0px;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.title-table-container{
+    background-color: white; 
+    margin-bottom:5px;
+    border-radius: 5px !important;
 }
