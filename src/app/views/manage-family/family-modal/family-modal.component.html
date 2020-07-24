@@ -38,7 +38,7 @@
                 <div class="container-persons" *ngIf="!form.get('id').value">
                     <mat-form-field [formGroup]="formPerson" appearance="fill"
                         class="form-field-select form-new-person">
-                        <mat-label>Person option</mat-label>
+                        <mat-label>Person Option</mat-label>
                         <mat-select formControlName="id">
                             <mat-option *ngFor="let item of personsData" [value]="item.id">
                                 {{item.username}}

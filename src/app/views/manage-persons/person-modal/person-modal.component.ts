@@ -83,6 +83,7 @@ export class PersonModalComponent implements OnInit {
 
       this.managePersonsService.editPerson(param).subscribe(
         result => {
+          this.dialogRef.close();
           Swal.fire(
             'Edited!',
             'Value Edited.',
