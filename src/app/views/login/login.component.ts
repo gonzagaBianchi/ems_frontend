@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
     if (!event) {
       return;
     }
-    console.log("teste")
 
     this.loginService.loginUser(this.loginForm.value)
       .subscribe(

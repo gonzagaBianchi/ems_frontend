@@ -19,7 +19,6 @@ export class LoginService {
   };
 
   loginUser(params: string) {
-    console.log("params:", params)
     return this.http.post<any>(`${this.API_URL}/login`, JSON.stringify(params), this.httpOptions).pipe(
       tap(event=>{
         this.saveTokenInLocalStorage(event);
@@ -29,7 +28,8 @@ export class LoginService {
   }
 
   saveTokenInLocalStorage(event: ILoginReturn){
-    localStorage.setItem(environment.typeAccessToken, event.token)
+    localStorage.setItem(environment.typeAccessToken, event.token);
+    localStorage.setItem(environment.person_role, event.person_role);
   }
 
   handleError(error) {

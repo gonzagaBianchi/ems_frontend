@@ -17,6 +17,10 @@ export class AuthService {
         return localStorage.getItem(environment.typeAccessToken)
     }
 
+    get getRole(): string {
+        return localStorage.getItem(environment.person_role)
+    }
+
     handleError(error) {
         console.error('login.HandleError: ', error);
         return throwError(error);

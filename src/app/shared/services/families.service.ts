@@ -21,12 +21,11 @@ export class FamiliesService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': `Bearer ${this.auth.getTokenActual}`,
     })
   };
 
   findFamily(id: any) {
-    return this.http.get<any>(`${this.API_URL}/families/{${id}}`, this.httpOptions)
+    return this.http.get<any>(`${this.API_URL}/families/${id} `, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 

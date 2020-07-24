@@ -20,7 +20,6 @@ export class ManagePersonsService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
-      'Authorization': `Bearer ${this.auth.getTokenActual}`,
     })
   };
 
@@ -41,13 +40,13 @@ export class ManagePersonsService {
   }
 
   editPerson(params: any) {
-    return this.http.put(`${this.API_URL}/persons/{${params.id}}`, JSON.stringify(params), this.httpOptions).pipe(
+    return this.http.put(`${this.API_URL}/persons/${params.id}`, JSON.stringify(params.family), this.httpOptions).pipe(
       catchError(this.handleError)
     );
   }
 
   deletePerson(idPerson: string) {
-    return this.http.delete(`${this.API_URL}/persons/${idPerson}`,  this.httpOptions)
+    return this.http.delete(`${this.API_URL}/persons/${idPerson}`, this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );

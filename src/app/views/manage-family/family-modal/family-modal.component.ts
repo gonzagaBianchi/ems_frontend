@@ -1,14 +1,13 @@
-import { Component, OnInit, Inject, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder, FormArray, FormGroupDirective, NgForm } from '@angular/forms';
 import { IFamily } from '../../../shared/models/family.model'
 import { IPerson } from 'src/app/shared/models/person.model';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ManagePersonsService } from 'src/app/shared/services/manage-persons.service';
-import { MatTableDataSource } from '@angular/material/table';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { MatStepper } from '@angular/material/stepper';
-import { switchAll } from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { FamiliesService } from 'src/app/shared/services/families.service';
+import { AuthService } from 'src/app/auth/auth-service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -23,11 +22,8 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   styleUrls: ['./family-modal.component.css']
 })
 export class FamilyModalComponent implements OnInit {
-  isLinear = true;
-  // error
+  isLinear = false;
   matcher = new MyErrorStateMatcher();
-
-  public itemsBefore: FormGroup;
 
   public personsArray = this.fb.array([]);
   formPerson = this.fb.group({
@@ -41,7 +37,6 @@ export class FamilyModalComponent implements OnInit {
     name: new FormControl('', Validators.required),
     max_persons: new FormControl(Validators.required),
     persons: this.fb.array([]),
-    teste: new FormControl(),
   });
 
   constructor(
@@ -49,6 +44,8 @@ export class FamilyModalComponent implements OnInit {
     private managePersonsService: ManagePersonsService,
     @Inject(MAT_DIALOG_DATA) public data: IFamily,
     private changeDetectorRef: ChangeDetectorRef,
+    private familiesService: FamiliesService,
+    private auth: AuthService,
     private fb: FormBuilder,
   ) { }
 
@@ -99,7 +96,7 @@ export class FamilyModalComponent implements OnInit {
     this.managePersonsService.getPersons().subscribe(
       result => {
         this.personsData = result;
-        console.log(this.personsData)
+        (this.personsData)
       },
       error => {
         console.error('familyModal.getPersons')
@@ -108,9 +105,19 @@ export class FamilyModalComponent implements OnInit {
   }
 
   submitForm(event) {
-    console.log("this form", this.form.value)
-
-
+    this.familiesService.createFamily(this.form.value).subscribe(
+      result => {
+        this.dialogRef.close(this.form.get('id').value);
+        Swal.fire(
+          'Created!',
+          'Value Created.',
+          'success'
+        );
+      },
+      error => {
+        Swal.fire('Error!', error, 'warning');
+      }
+    )
   }
 
   addPersonToFamily() {
@@ -134,9 +141,8 @@ export class FamilyModalComponent implements OnInit {
   }
 
   removePerson(index: number) {
-    console.log("index: ", index);
-    const teste = this.form.controls.persons as FormArray;
-    teste.removeAt(index);
+    const persons = this.form.controls.persons as FormArray;
+    persons.removeAt(index);
 
     this.changeDetectorRef.detectChanges();
   }
@@ -145,7 +151,6 @@ export class FamilyModalComponent implements OnInit {
     if (this.form.get('persons').value.length > this.form.get('max_persons').value) {
       return true;
     }
-
     return false;
   }
 
@@ -155,5 +160,14 @@ export class FamilyModalComponent implements OnInit {
     }
 
     return true;
+  }
+
+  validRole() {
+    let rtn = true
+    if (this.form.get('id').value) {
+      rtn = false;
+    }
+
+    return rtn;
   }
 }

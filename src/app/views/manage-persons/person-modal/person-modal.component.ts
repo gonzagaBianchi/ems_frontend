@@ -6,6 +6,7 @@ import { ManagePersonsService } from 'src/app/shared/services/manage-persons.ser
 import { FamiliesService } from 'src/app/shared/services/families.service';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { IPerson } from 'src/app/shared/models/person.model';
+import { AuthService } from 'src/app/auth/auth-service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -29,8 +30,8 @@ export class PersonModalComponent implements OnInit {
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
     name: new FormControl(''),
-    age: new FormControl(Validators.required),
-    family: new FormControl(Validators.required),
+    age: new FormControl('', Validators.required),
+    family: new FormControl('', Validators.required),
     role: new FormControl(''),
   })
 
@@ -41,18 +42,18 @@ export class PersonModalComponent implements OnInit {
   ];
 
   constructor(
-    private fb: FormBuilder,
-    private changeDetect: ChangeDetectorRef,
     public dialogRef: MatDialogRef<PersonModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: IPerson,
     private managePersonsService: ManagePersonsService,
+    @Inject(MAT_DIALOG_DATA) public data: IPerson,
     private familiesService: FamiliesService,
+    private changeDetect: ChangeDetectorRef,
+    private auth: AuthService,
+    private fb: FormBuilder,
 
   ) {
   }
 
   ngOnInit(): void {
-
     this.form.patchValue({
       id: this.data.id ? this.data.id : null,
       username: this.data.username,
@@ -72,16 +73,13 @@ export class PersonModalComponent implements OnInit {
   }
 
   submitForm(event) {
-    console.log(this.form.value);
     if (!this.validFormBefore() && this.form.get('id')) {
       Swal.fire('Error!', "Não foi possível encontrar alterações", 'warning');
       return;
     }
 
     if (this.form.get("id").value) {
-      console.log("EDIIIT");
-      return;
-      const param = { family: this.form.get('family').value };
+      const param = { id: this.form.get("id").value, family: { family: this.form.get('family').value } };
 
       this.managePersonsService.editPerson(param).subscribe(
         result => {
@@ -98,7 +96,6 @@ export class PersonModalComponent implements OnInit {
     }
 
     if (!this.form.get('id').value) {
-      console.log("create");
       !this.form.get('role').value ? this.form.patchValue({ role: 'normal' }) : '';
       this.managePersonsService.createPerson(this.form.value).subscribe(
         result => {
@@ -144,8 +141,6 @@ export class PersonModalComponent implements OnInit {
           let x = { id: element.id, name: element.name };
           this.familyData.push(x);
         });
-
-        console.log("res: ", result);
       },
       error => {
         Swal.fire('Error!', error, 'warning');

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ManagePersonsService } from '../../shared/services/manage-persons.service';
 import Swal from 'sweetalert2';
@@ -6,8 +6,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { PersonModalComponent } from './person-modal/person-modal.component';
 import { IPerson } from '../../shared/models/person.model';
 import { FamiliesService } from 'src/app/shared/services/families.service';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { MatPaginator } from '@angular/material/paginator';
+import { AuthService } from 'src/app/auth/auth-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-persons',
@@ -21,7 +22,9 @@ export class ManagePersonsComponent implements OnInit {
     private managePersonsService: ManagePersonsService,
     private changeDetectorRef: ChangeDetectorRef,
     private familiesService: FamiliesService,
+    private auth: AuthService,
     public modal: MatDialog,
+    private router: Router,
   ) { }
 
   public displayedColumns: string[] = [
@@ -38,7 +41,6 @@ export class ManagePersonsComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   dataSource = new MatTableDataSource<IPerson>();
-  @BlockUI('tableList') blockUI: NgBlockUI;
   public searchResults = "Search for Results";
   isLoading = true;
 
@@ -64,14 +66,10 @@ export class ManagePersonsComponent implements OnInit {
       result => {
         this.dataSource = new MatTableDataSource<IPerson>(result);
         this.dataSource.paginator = this.paginator;
-
-        console.log("paginator:", this.dataSource.paginator)
-        console.log("this paginator:", this.paginator)
       },
       error => {
         this.stopLoad();
 
-        // falar sobre mensagem API
         Swal.fire('Error!', error, 'warning');
       },
       () => {
@@ -114,11 +112,7 @@ export class ManagePersonsComponent implements OnInit {
     });
   }
 
-  newPerson(event) {
-    if (!event) {
-      return;
-    }
-
+  newPerson() {
     const person = {
       username: '',
       password: '',
@@ -157,12 +151,33 @@ export class ManagePersonsComponent implements OnInit {
           this.familyData.push(x);
         });
 
-        console.log("res: ", result);
       },
       error => {
         Swal.fire('Error!', error, 'warning');
       }
     )
+  }
+
+  validRole() {
+    let rtn = true
+
+    if (this.auth.getRole !== "admin") {
+      rtn = false;
+    }
+
+    return rtn;
+  }
+
+  navigateByCreateFamily() {
+    if (!this.validRole()) {
+      return;
+    }
+
+    this.newPerson()
+  }
+
+  viewPerson(event) {
+    this.openModalPerson(event);
   }
 }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild, OnChanges } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { FamiliesService } from 'src/app/shared/services/families.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -6,7 +6,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { IFamily } from '../../shared/models/family.model';
 import { FamilyModalComponent } from './family-modal/family-modal.component';
 import Swal from 'sweetalert2';
-import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { AuthService } from 'src/app/auth/auth-service';
 
 @Component({
   selector: 'app-manage-family',
@@ -18,6 +18,7 @@ export class ManageFamilyComponent implements OnInit {
   constructor(
     private changeDetectorRef: ChangeDetectorRef,
     private familiesService: FamiliesService,
+    private auth: AuthService,
     public modal: MatDialog,
   ) { }
 
@@ -88,7 +89,7 @@ export class ManageFamilyComponent implements OnInit {
   }
 
   openModalFamily(event) {
-    if (!event) {
+    if (!event || !this.validRole()) {
       return;
     }
 
@@ -100,5 +101,15 @@ export class ManageFamilyComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.listFamily();
     });
+  }
+
+  validRole() {
+    let rtn = true
+
+    if (this.auth.getRole !== "admin") {
+      rtn = false;
+    }
+
+    return rtn;
   }
 }

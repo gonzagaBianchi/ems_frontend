@@ -95,10 +95,10 @@
             <input 
             type="button" 
             class="content-submit" 
+            [disabled]="form.invalid"
             [value]="form.get('id').value ? 'Edit' : 'Save'"
             (click)="submitForm($event)"
             >
-            <!-- [disabled]="form.invalid" -->
         </div>
     </form>
 </mat-dialog-content>

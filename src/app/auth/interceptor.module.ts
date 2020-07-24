@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { throwError, Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { AuthService } from './auth-service';
 
 @Injectable()
 export class Interceptor implements HttpInterceptor {
 
     constructor(
-        // private auth: AuthGuard
-        private route: Router
+        private auth: AuthService,
+        private route: Router,
     ) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -17,6 +18,7 @@ export class Interceptor implements HttpInterceptor {
             setHeaders: {
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
+                'Authorization': `Bearer ${this.auth.getTokenActual}`,
             },
         });
 
@@ -34,21 +36,15 @@ export class Interceptor implements HttpInterceptor {
         let errorMessage = '';
         console.error('ERRO: ', error);
         if (error.status == 404) {
-            errorMessage = 'Recurso indisponível, tente novamente mais tarde';
-        } else if (error.status == 400 && typeof error.error == 'string') {
-            errorMessage = 'Solicitação incorreta, tente novamente mais tarde';
-        } else if (error.status == 500 && typeof error.error == 'string') {
-            errorMessage = 'Servidor indiponível, tente novamente mais tarde';
+            errorMessage = 'Service Unavailable';
+        } else if (error.status == 400) {
+            errorMessage = 'Service Unavailable';
+        } else if (error.status == 500) {
+            errorMessage = 'Service Unavailable';
         } else if (error.status == 0) {
-            errorMessage = 'Servidor indiponível, tente novamente mais tarde';
+            errorMessage = 'Service Unavailable';
         } else if (error.status == 403) {
             // this.route.navigateByUrl("/login");
-        } else {
-            if (error.error instanceof ErrorEvent) {
-                errorMessage = error.error.message;
-            } else {
-                errorMessage = `${error.error.errors[0].value}`;
-            }
         }
         return errorMessage;
     }

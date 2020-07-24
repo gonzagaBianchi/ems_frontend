@@ -1,7 +1,7 @@
 
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select'
 import { BrowserModule } from '@angular/platform-browser';
 import { ManageFamilyComponent } from './manage-family.component';
@@ -15,10 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
-import { BlockUIModule } from 'ng-block-ui';
 import { CdkScrollableModule } from '@angular/cdk/scrolling';
-
-
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [ManageFamilyComponent, FamilyModalComponent],
@@ -38,7 +36,8 @@ import { CdkScrollableModule } from '@angular/cdk/scrolling';
     MatStepperModule,
     MatTooltipModule,
     MatButtonModule,
-    CdkScrollableModule
+    CdkScrollableModule,
+    MatProgressSpinnerModule,
 
   ]
 })

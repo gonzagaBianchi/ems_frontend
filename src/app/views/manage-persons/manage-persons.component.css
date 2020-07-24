@@ -97,3 +97,21 @@ body {
   margin-bottom:5px;
   border-radius: 5px !important;
 }
+
+.actions-td{
+  padding-left: 15px;
+}
+
+.spinner{
+  justify-content: center;
+  display: flex;
+  padding: 13px;
+  background-color: white;
+  text-align: center;
+  padding-top: 20px;
+}
+
+.spinner-text{
+  text-align: center;
+  background-color: white;
+}

@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   typeAccessToken: 'token',
+  person_role: 'person_role',
   baseUrlservice: 'https://backend1.recruitment.cybersecurity.cloud/api',
 };
 

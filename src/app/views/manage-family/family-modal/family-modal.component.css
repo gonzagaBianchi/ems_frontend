@@ -56,14 +56,17 @@ input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
 .btn-add-person{
   cursor: pointer;
   margin-left: 5px;
+  margin-top: 13px;
+  margin-bottom: 15px;
+  height: 35px;
 }
 .btn-add-person:disabled{
   cursor: inherit;
   margin-left: 5px;
 }
 
-.form-new-person{
-  margin-top: 5px;
+.container-persons{
+  display: flex;
 }
 
 .icon-add-person{
@@ -73,8 +76,6 @@ input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
 .container-table{
   margin: 30px;
   justify-content: center;
-  /* height: 80vh; */
-  /* max-height: 80vh; */
 }
 
 table{

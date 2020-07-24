@@ -8,20 +8,19 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PersonModalComponent } from './person-modal/person-modal.component';
-import {MatSelectModule} from '@angular/material/select'
+import { MatSelectModule } from '@angular/material/select'
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import { BlockUIModule } from 'ng-block-ui';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [ManagePersonsComponent, PersonModalComponent],
   imports: [
-    BlockUIModule.forRoot(),
     CommonModule,
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
-    
+
     // Angular Material modules
     MatTableModule,
     MatPaginatorModule,
@@ -29,8 +28,8 @@ import { BlockUIModule } from 'ng-block-ui';
     MatSelectModule,
     MatDialogModule,
     MatFormFieldModule,
-    MatInputModule
-    
+    MatInputModule,
+    MatProgressSpinnerModule,
   ],
 })
 export class ManagePersonsModule { }
